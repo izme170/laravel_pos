@@ -9,9 +9,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+Route::get('dashboard', function () {
+    return Inertia::render('dashboard');
+})->name('dashboard');
 
     Route::middleware('admin')->group(function (){
         Route::controller(ProductController::class)->prefix('products')->group(function () {
@@ -26,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/{product}/restore', 'restore')->name('products.restore');
             Route::delete('/{product}/force-delete', 'forceDelete')->name('products.forceDelete');
             Route::get('/search', 'search')->name('products.search');
+            Route::get('/filter', 'filter')->name('products.filter');
+
         });
     });
 });

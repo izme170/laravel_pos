@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
         return Inertia::render('Products/Show', [
             'products' => $product
@@ -57,14 +57,14 @@ class ProductController extends Controller
 
         Product::create($request->all());
 
-        return redirect()->route('product.index')->with('success', 'Product created successfully');
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 
     public function edit($id)
     {
         $product = Product::find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
         $brands = Brand::all();
         $categories = Category::all();
@@ -94,48 +94,48 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $product->update($request->all());
 
-        return redirect()->route('product.index')->with('success', 'Product updated successfully');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     public function destroy($id)
     {
         $product = Product::find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $product->delete();
 
-        return redirect()->route('product.index')->with('success', 'Product deleted successfully');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
     }
 
     public function restore($id)
     {
         $product = Product::withTrashed()->find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $product->restore();
 
-        return redirect()->route('product.index')->with('success', 'Product restored successfully');
+        return redirect()->route('products.index')->with('success', 'Product restored successfully');
     }
 
     public function forceDelete($id)
     {
         $product = Product::withTrashed()->find($id);
         if(!$product){
-            return redirect()->route('product.index')->with('error', 'Product not found');
+            return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
         $product->forceDelete();
 
-        return redirect()->route('product.index')->with('success', 'Product permanently deleted successfully');
+        return redirect()->route('products.index')->with('success', 'Product permanently deleted successfully');
     }
 
     public function trashed()

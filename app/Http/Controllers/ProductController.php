@@ -101,6 +101,15 @@ class ProductController extends Controller
             'barcode' => 'nullable|string|max:255'
         ]);
 
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = Str::uuid() . '.' . $request->image->extension();
+            $request->image->storeAs('images', $imageName, 'public');
+            $validated['image'] = $imageName;
+        }
+
         $product = Product::find($id);
         if(!$product){
             return redirect()->route('products.index')->with('error', 'Product not found');

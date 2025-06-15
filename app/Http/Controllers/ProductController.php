@@ -52,13 +52,11 @@ class ProductController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0|lte:selling_price',
             'stock' => 'required|integer|min:0',
-            'barcode' => 'nullable|string|max:255'
+            'barcode' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
             $imageName = Str::uuid() . '.' . $request->image->extension();
             $request->image->storeAs('images', $imageName, 'public');
             $validated['image'] = $imageName;
@@ -98,13 +96,11 @@ class ProductController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'barcode' => 'nullable|string|max:255'
+            'barcode' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
             $imageName = Str::uuid() . '.' . $request->image->extension();
             $request->image->storeAs('images', $imageName, 'public');
             $validated['image'] = $imageName;

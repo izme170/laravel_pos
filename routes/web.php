@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Product;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::middleware('admin')->group(function (){
-        Route::controller(Product::class)->prefix('products')->group(function () {
+        Route::controller(ProductController::class)->prefix('products')->group(function () {
             Route::get('/', 'index')->name('products.index');
             Route::get('/{product}', 'show')->name('products.show');
             Route::get('/create', 'create')->name('products.create');

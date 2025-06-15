@@ -15,7 +15,7 @@ class IsManager
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->role->name == 'manager')
+        if(auth()->user()->role->name == 'Manager')
         {
             return response()->json(['error' => 'Unauthorized'], 403);
         }

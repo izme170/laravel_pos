@@ -55,6 +55,15 @@ class ProductController extends Controller
             'barcode' => 'nullable|string|max:255'
         ]);
 
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('images', $imageName, 'public');
+            $request->merge(['image' => $imageName]);
+        }
+
         Product::create($request->all());
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');

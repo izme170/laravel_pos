@@ -42,7 +42,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
@@ -50,7 +50,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'buying_price' => 'required|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0|lte:selling_price',
             'stock' => 'required|integer|min:0',
             'barcode' => 'nullable|string|max:255'
         ]);
@@ -59,12 +59,12 @@ class ProductController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time() . '.' . $request->image->extension();
+            $imageName = Str::uuid() . '.' . $request->image->extension();
             $request->image->storeAs('images', $imageName, 'public');
-            $request->merge(['image' => $imageName]);
+            $validated['image'] = $imageName;
         }
 
-        Product::create($request->all());
+        Product::create($validated);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
@@ -106,7 +106,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', 'Product not found');
         }
 
-        $product->update($request->all());
+        $product->update($validated);
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }

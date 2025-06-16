@@ -1,59 +1,57 @@
+import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Product } from '@/types/product';
+
+interface Product {
+    id: number;
+    name: string;
+    buying_price: number;
+    selling_price: number;
+    sale_price: number | null;
+    stock: number;
+    barcode: string;
+}
 
 export default function ProductIndex() {
-    const { products } = usePage<{ products: Product[] }>().props;
+    const page = usePage<{ products: Product[] }>();
+    const products = page.props.products;
 
     return (
         <AppLayout>
             <Head title="Products" />
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
+            <div className="p-6">
+                <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold">Products</h1>
-                    <Link href={route('products.create')}>
-                        <Button>Add Product</Button>
+                    <Link href={route('products.create')} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        + Add Product
                     </Link>
                 </div>
 
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Brand</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Stock</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border rounded">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 border">Name</th>
+                                <th className="px-4 py-2 border">Buying</th>
+                                <th className="px-4 py-2 border">Selling</th>
+                                <th className="px-4 py-2 border">Sale</th>
+                                <th className="px-4 py-2 border">Stock</th>
+                                <th className="px-4 py-2 border">Barcode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {products.map((product) => (
-                                <TableRow key={product.id}>
-                                    <TableCell className="font-medium">{product.name}</TableCell>
-                                    <TableCell>{product.brand?.name}</TableCell>
-                                    <TableCell>{product.category?.name}</TableCell>
-                                    <TableCell>${product.selling_price}</TableCell>
-                                    <TableCell>{product.stock}</TableCell>
-                                    <TableCell className="space-x-2">
-                                        <Link href={route('products.show', product.id)}>
-                                            <Button variant="outline" size="sm">
-                                                View
-                                            </Button>
-                                        </Link>
-                                        <Link href={route('products.edit', product.id)}>
-                                            <Button variant="outline" size="sm">
-                                                Edit
-                                            </Button>
-                                        </Link>
-                                    </TableCell>
-                                </TableRow>
+                                <tr key={product.id}>
+                                    <td className="px-4 py-2 border">{product.name}</td>
+                                    <td className="px-4 py-2 border">{product.buying_price}</td>
+                                    <td className="px-4 py-2 border">{product.selling_price}</td>
+                                    <td className="px-4 py-2 border">{product.sale_price || '-'}</td>
+                                    <td className="px-4 py-2 border">{product.stock}</td>
+                                    <td className="px-4 py-2 border">{product.barcode}</td>
+                                </tr>
                             ))}
-                        </TableBody>
-                    </Table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </AppLayout>

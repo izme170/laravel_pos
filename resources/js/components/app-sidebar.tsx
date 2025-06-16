@@ -54,28 +54,6 @@ const mainNavItems: NavItem[] = [
         href: '/products/trashed',
         icon: Trash2,
     },
-
-    // UserController
-    {
-        title: 'All Users',
-        href: '/users',
-        icon: Users,
-    },
-    {
-        title: 'User Details (sample)',
-        href: '/users/1', // Optional: sample, replace dynamically if needed
-        icon: Eye,
-    },
-    {
-        title: 'Edit User (sample)',
-        href: '/users/1/edit', // Optional: sample, replace dynamically
-        icon: Edit,
-    },
-    {
-        title: 'User Roles',
-        href: '/users/roles', // Make sure this is handled in UserController
-        icon: UserCheck,
-    },
 ];
 
 

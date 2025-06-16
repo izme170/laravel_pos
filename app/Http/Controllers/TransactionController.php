@@ -25,7 +25,7 @@ class TransactionController extends Controller
         $paymentMethos = PaymentMethod::all();
         $discounts = Discount::all();
         return Inertia::render('Transactions/Create', [
-            'products'=> $products,
+            'products' => $products,
             'paymentMethods' => $paymentMethos,
             'discounts' => $discounts,
         ]);
@@ -36,7 +36,6 @@ class TransactionController extends Controller
         $validated = $request->validate([
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.transaction_id' => 'nullable|exists:transactions,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
             'customer_name' => 'required|string|max:255',
@@ -50,7 +49,10 @@ class TransactionController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        $transaction = Transaction::create($validated);
+        // Exclude items
+        $transactionData = collect($validated)->except('items')->toArray();
+
+        $transaction = Transaction::create($transactionData);
 
         foreach ($validated['items'] as $item) {
             $transaction->items()->create($item);
@@ -59,6 +61,7 @@ class TransactionController extends Controller
         return redirect()->route('transactions.receipt', $transaction->id)->with('success', 'Transaction created successfully.');
     }
 
+
     public function show($id)
     {
         $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);
@@ -66,7 +69,7 @@ class TransactionController extends Controller
             'transaction' => $transaction,
         ]);
     }
-    
+
     public function receipt($id)
     {
         $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);

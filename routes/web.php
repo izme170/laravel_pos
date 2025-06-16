@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
+use App\Models\Brand;
 use App\Models\PaymentMethod;
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +21,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('dashboard', function () {
     return Inertia::render('dashboard');
 })->name('dashboard');
+
+    Route::middleware('admin')->group(function () {
+        Route::controller(UserController::class)->prefix('users')->group(function () {
+            Route::get('/', 'index')->name('users.index');
+            Route::get('/create', 'create')->name('users.create');
+            Route::post('/', 'store')->name('users.store');
+            Route::get('/{user}', 'show')->name('users.show');
+            Route::get('/{user}/edit', 'edit')->name('users.edit');
+            Route::put('/{user}', 'update')->name('users.update');
+            Route::delete('/{user}', 'destroy')->name('users.destroy');
+        });
+    });
 
     Route::middleware('manager')->group(function (){
         Route::controller(ProductController::class)->prefix('products')->group(function () {
@@ -38,7 +55,7 @@ Route::get('dashboard', function () {
             Route::get('/create', 'create')->name('discounts.create');
             Route::post('/', 'store')->name('discounts.store');
             Route::delete('/{discount}', 'destroy')->name('discounts.destroy');
-            Route::get('trashed', 'trashed')->name('discounts.trashed');
+            Route::get('/trashed', 'trashed')->name('discounts.trashed');
             Route::post('/{id}/restore', 'restore')->name('discounts.restore');
         });
 
@@ -47,7 +64,7 @@ Route::get('dashboard', function () {
             Route::get('/create', 'create')->name('payment-methods.create');
             Route::post('/', 'store')->name('payment-methods.store');
             Route::delete('/{payment}', 'destroy')->name('payment-methods.destroy');
-            Route::get('trashed', 'trashed')->name('payment-methods.trashed');
+            Route::get('/trashed', 'trashed')->name('payment-methods.trashed');
             Route::post('/{id}/restore', 'restore')->name('payment-methods.restore');
         });
 
@@ -58,8 +75,36 @@ Route::get('dashboard', function () {
             Route::get('/{transaction}', 'show')->name('transactions.show');
             Route::get('/{transaction}/receipt', 'receipt')->name('transactions.receipt');
         });
+
+        Route::controller(BrandController::class)->prefix('brands')->group(function () {
+            Route::get('/', 'index')->name('brands.index');
+            Route::get('/create', 'create')->name('brands.create');
+            Route::post('/', 'store')->name('brands.store');
+            Route::delete('/{brand}', 'destroy')->name('brands.destroy');
+            Route::get('/trashed', 'trashed')->name('brands.trashed');
+            Route::post('/{id}/restore', 'restore')->name('brands.restore');
+        });
+
+        Route::controller(CategoryController::class)->prefix('categories')->group(function () {
+            Route::get('/', 'index')->name('categories.index');
+            Route::get('/create', 'create')->name('categories.create');
+            Route::post('/', 'store')->name('categories.store');
+            Route::delete('/{category}', 'destroy')->name('categories.destroy');
+            Route::get('/trashed', 'trashed')->name('categories.trashed');
+            Route::post('/{id}/restore', 'restore')->name('categories.restore');
+        });
+
+        Route::controller(SupplierController::class)->prefix('suppliers')->group(function () {
+            Route::get('/', 'index')->name('suppliers.index');
+            Route::get('/create', 'create')->name('suppliers.create');
+            Route::post('/', 'store')->name('suppliers.store');
+            Route::get('/{supplier}/edit', 'edit')->name('suppliers.edit');
+            Route::put('/{supplier}', 'update')->name('suppliers.update');
+            Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
+            Route::get('/trashed', 'trashed')->name('suppliers.trashed');
+            Route::post('/{id}/restore', 'restore')->name('suppliers.restore');
+        });
     });
 });
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

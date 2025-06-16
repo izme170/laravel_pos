@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->decimal('sale_price', 9, 2)->nullable();
             $table->integer('stock')->default(0);
             $table->string('barcode', 50);
-            $table->string('immage')->nullable();
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discount;
 use App\Models\PaymentMethod;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,9 +21,11 @@ class TransactionController extends Controller
 
     public function create()
     {
+        $products = Product::all();
         $paymentMethos = PaymentMethod::all();
         $discounts = Discount::all();
         return Inertia::render('Transactions/Create', [
+            'products'=> $products,
             'paymentMethods' => $paymentMethos,
             'discounts' => $discounts,
         ]);
@@ -31,6 +34,11 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'items' => 'required|array|min:1',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.transaction_id' => 'nullable|exists:transactions,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:0',
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',
             'discount_id' => 'nullable|exists:discounts,id',
@@ -43,6 +51,10 @@ class TransactionController extends Controller
         $validated['user_id'] = auth()->id();
 
         $transaction = Transaction::create($validated);
+
+        foreach ($validated['items'] as $item) {
+            $transaction->items()->create($item);
+        }
 
         return redirect()->route('transactions.receipt', $transaction->id)->with('success', 'Transaction created successfully.');
     }

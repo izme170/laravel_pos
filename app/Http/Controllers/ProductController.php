@@ -8,13 +8,14 @@ use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::all();
-        return Inertia::render('Products/Index', compact(['products']));
+        return Inertia::render('products/index', compact(['products']));
     }
 
     public function show($id)
@@ -23,20 +24,20 @@ class ProductController extends Controller
         if(!$product){
             return redirect()->route('products.index')->with('error', 'Product not found');
         }
-        return Inertia::render('Products/Show', [
-            'products' => $product
+        return Inertia::render('products/show', [
+            'product' => $product  // Changed from 'products' to 'product'
         ]);
     }
 
     public function create()
     {
         $brands = Brand::all();
-        $category = Category::all();
-        $supplier = Supplier::all();
-        return Inertia::render('Products/Create', [
+        $categories = Category::all();  // Changed from $category to $categories
+        $suppliers = Supplier::all();   // Changed from $supplier to $suppliers
+        return Inertia::render('products/create', [
             'brands' => $brands,
-            'categories' => $category,
-            'suppliers' => $supplier
+            'categories' => $categories,
+            'suppliers' => $suppliers
         ]);
     }
 
@@ -76,7 +77,7 @@ class ProductController extends Controller
         $brands = Brand::all();
         $categories = Category::all();
         $suppliers = Supplier::all();
-        return Inertia::render('Products/Edit', [
+        return Inertia::render('products/edit', [  // Lowercased
             'product' => $product,
             'brands' => $brands,
             'categories' => $categories,
@@ -155,7 +156,7 @@ class ProductController extends Controller
     public function trashed()
     {
         $trashedProducts = Product::onlyTrashed()->get();
-        return Inertia::render('Products/Trashed', [
+        return Inertia::render('products/trashed', [  // Lowercased
             'products' => $trashedProducts
         ]);
     }
@@ -167,11 +168,12 @@ class ProductController extends Controller
             ->orWhere('barcode', 'like', '%' . $query . '%')
             ->get();
 
-        return Inertia::render('Products/SearchResults', [
+        return Inertia::render('products/search-results', [  // Lowercased and hyphenated
             'products' => $products,
             'query' => $query
         ]);
     }
+
     public function filter(Request $request)
     {
         $filters = $request->only(['brand_id', 'category_id', 'supplier_id']);
@@ -189,7 +191,7 @@ class ProductController extends Controller
 
         $products = $query->get();
 
-        return Inertia::render('Products/FilterResults', [
+        return Inertia::render('products/filter-results', [  // Lowercased and hyphenated
             'products' => $products,
             'filters' => $filters
         ]);

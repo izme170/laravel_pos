@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\PaymentMethod;
 use App\Models\Role;
 use App\Models\Supplier;
 use App\Models\User;
@@ -50,6 +51,17 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($categories as $category) {
             Category::firstOrCreate(['name' => $category]);
+        }
+
+        $paymentMethods = [
+            'Cash',
+            'Credit Card',
+            'Debit Card',
+            'Mobile Payment',
+            'Bank Transfer'
+        ];
+        foreach ($paymentMethods as $method) {
+            PaymentMethod::firstOrCreate(['name' => $method]);
         }
     }
 }

@@ -1,10 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Product } from '@/types/product';
-import { Table } from 'lucide-react';
-
 export default function ProductFilterResults({ products, filters }: { products: Product[]; filters: any }) {
     return (
         <AppLayout>

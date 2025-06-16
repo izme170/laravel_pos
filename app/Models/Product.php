@@ -18,7 +18,8 @@ class Product extends Model
         "selling_price",
         "sale_price",
         "stock",
-        "barcode"
+        "barcode",
+        "image"
     ];
 
     public function brand()

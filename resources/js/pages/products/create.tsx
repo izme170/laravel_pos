@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, useForm, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { router } from '@inertiajs/react';
 
 interface SelectOption {
     id: number;
@@ -30,15 +31,38 @@ export default function ProductCreate({ brands, categories, suppliers }: PagePro
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('products.store'));
+
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('brand_id', data.brand_id);
+        formData.append('category_id', data.category_id);
+        formData.append('supplier_id', data.supplier_id);
+        formData.append('description', data.description || '');
+        formData.append('buying_price', data.buying_price);
+        formData.append('selling_price', data.selling_price);
+        formData.append('sale_price', data.sale_price || '');
+        formData.append('stock', data.stock);
+        formData.append('barcode', data.barcode || '');
+
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+
+        router.post(route('products.store'), formData, {
+            forceFormData: true,
+            onError: (errs) => {
+                console.error('Validation Errors:', errs);
+            },
+        });
     };
+
 
     return (
         <AppLayout>
             <Head title="Add Product" />
             <div className="p-6">
                 <h1 className="text-2xl font-bold mb-4">Add New Product</h1>
-                <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
+                <form onSubmit={handleSubmit} className="space-y-4 max-w-xl" encType="multipart/form-data">
                     <div>
                         <label className="block mb-1">Product Name</label>
                         <input type="text" value={data.name} onChange={e => setData('name', e.target.value)} className="w-full border p-2 rounded" />

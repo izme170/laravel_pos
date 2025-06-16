@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Role;
+use App\Models\Supplier;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,5 +33,23 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'role_id' => 1
         ]);
+
+        Brand::factory(10)->create();
+        Supplier::factory(10)->create();
+
+        // Categories
+        $categories = [
+            'Beverages',
+            'Snacks',
+            'Groceries',
+            'Personal Care',
+            'Household',
+            'Electronics',
+            'Stationery',
+            'Pharmacy'
+        ];
+        foreach ($categories as $category) {
+            Category::firstOrCreate(['name' => $category]);
+        }
     }
 }

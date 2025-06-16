@@ -21,16 +21,16 @@ Route::get('dashboard', function () {
         Route::controller(ProductController::class)->prefix('products')->group(function () {
             Route::get('/', 'index')->name('products.index');
             Route::get('/create', 'create')->name('products.create');
+            Route::get('/search', 'search')->name('products.search');
+            Route::get('/filter', 'filter')->name('products.filter');
+            Route::get('/trashed', 'trashed')->name('products.trashed');
             Route::get('/{product}', 'show')->name('products.show');
             Route::post('/', 'store')->name('products.store');
             Route::get('/{product}/edit', 'edit')->name('products.edit');
             Route::put('/{product}', 'update')->name('products.update');
             Route::delete('/{product}', 'destroy')->name('products.destroy');
-            Route::get('/trashed', 'trashed')->name('products.trashed');
             Route::post('/{product}/restore', 'restore')->name('products.restore');
             Route::delete('/{product}/force-delete', 'forceDelete')->name('products.forceDelete');
-            Route::get('/search', 'search')->name('products.search');
-            Route::get('/filter', 'filter')->name('products.filter');
         });
 
         Route::controller(DiscountController::class)->prefix('discounts')->group(function () {

@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Discount;
+use App\Models\PaymentMethod;
+use App\Models\Transaction;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class TransactionController extends Controller
+{
+    public function index()
+    {
+        $transactions = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->get();
+        return Inertia::render('Transactions/Index', [
+            'transactions' => $transactions,
+        ]);
+    }
+
+    public function create()
+    {
+        $paymentMethos = PaymentMethod::all();
+        $discounts = Discount::all();
+        return Inertia::render('Transactions/Create', [
+            'paymentMethods' => $paymentMethos,
+            'discounts' => $discounts,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            'discount_id' => 'nullable|exists:discounts,id',
+            'payment_method_id' => 'required|exists:payment_methods,id',
+            'amount_tendered' => 'required|numeric|min:0',
+            'change_due' => 'required|numeric|min:0',
+            'total_amount' => 'required|numeric|min:0',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        $transaction = Transaction::create($validated);
+
+        return redirect()->route('transactions.receipt', $transaction->id)->with('success', 'Transaction created successfully.');
+    }
+
+    public function show($id)
+    {
+        $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);
+        return Inertia::render('Transactions/Show', [
+            'transaction' => $transaction,
+        ]);
+    }
+    
+    public function receipt($id)
+    {
+        $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);
+        return Inertia::render('Transactions/Receipt', [
+            'transaction' => $transaction,
+        ]);
+    }
+}

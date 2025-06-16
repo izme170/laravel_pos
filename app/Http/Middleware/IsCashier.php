@@ -15,7 +15,7 @@ class IsCashier
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role->name == 'Cashier')
+        if(auth()->user()->role->name !== 'Cashier' && auth()->user()->role->name !== 'Admin')
         {
             return response()->json(['error' => 'Unauthorized'], 403);
         }

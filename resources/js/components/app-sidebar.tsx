@@ -10,8 +10,6 @@ import {
     LayoutGrid,
     Package,
     PackagePlus,
-    PackageSearch,
-    Filter,
     Trash2,
     Users,
     Eye,
@@ -39,16 +37,7 @@ const mainNavItems: NavItem[] = [
         href: '/products/create',
         icon: PackagePlus,
     },
-    {
-        title: 'Search Products',
-        href: '/products/search',
-        icon: PackageSearch,
-    },
-    {
-        title: 'Filter Products',
-        href: '/products/filter',
-        icon: Filter,
-    },
+
     {
         title: 'Trashed Products',
         href: '/products/trashed',

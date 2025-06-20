@@ -15,7 +15,13 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return Inertia::render('products/index', compact(['products']));
+        return Inertia::render('products/index', [
+            'products' => $products,
+            'flash' => [
+                'success' => session('success'),
+                'error' => session('error')
+            ]
+        ]);
     }
 
     public function show($id)
@@ -25,15 +31,15 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', 'Product not found');
         }
         return Inertia::render('products/show', [
-            'product' => $product  // Changed from 'products' to 'product'
+            'product' => $product
         ]);
     }
 
     public function create()
     {
         $brands = Brand::all();
-        $categories = Category::all();  // Changed from $category to $categories
-        $suppliers = Supplier::all();   // Changed from $supplier to $suppliers
+        $categories = Category::all();
+        $suppliers = Supplier::all();
         return Inertia::render('products/create', [
             'brands' => $brands,
             'categories' => $categories,
@@ -77,7 +83,7 @@ class ProductController extends Controller
         $brands = Brand::all();
         $categories = Category::all();
         $suppliers = Supplier::all();
-        return Inertia::render('products/edit', [  // Lowercased
+        return Inertia::render('products/edit', [
             'product' => $product,
             'brands' => $brands,
             'categories' => $categories,
@@ -156,7 +162,7 @@ class ProductController extends Controller
     public function trashed()
     {
         $trashedProducts = Product::onlyTrashed()->get();
-        return Inertia::render('products/trashed', [  // Lowercased
+        return Inertia::render('products/trashed', [
             'products' => $trashedProducts
         ]);
     }
@@ -168,7 +174,7 @@ class ProductController extends Controller
             ->orWhere('barcode', 'like', '%' . $query . '%')
             ->get();
 
-        return Inertia::render('products/search-results', [  // Lowercased and hyphenated
+        return Inertia::render('products/search-results', [
             'products' => $products,
             'query' => $query
         ]);
@@ -191,9 +197,32 @@ class ProductController extends Controller
 
         $products = $query->get();
 
-        return Inertia::render('products/filter-results', [  // Lowercased and hyphenated
+        return Inertia::render('products/filter-results', [
             'products' => $products,
             'filters' => $filters
         ]);
+    }
+
+    // New method for adding to cart
+    public function addToCart(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $product = Product::find($id);
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Product not found');
+        }
+
+        if ($product->stock < $validated['quantity']) {
+            return redirect()->route('products.index')->with('error', 'Insufficient stock available');
+        }
+
+        // Here you would typically save to a cart table or session
+        // For now, we'll just return success with a flash message
+        $message = "{$validated['quantity']} x {$product->name} added to cart successfully";
+        
+        return redirect()->route('products.index')->with('success', $message);
     }
 }

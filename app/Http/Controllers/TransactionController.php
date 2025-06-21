@@ -77,4 +77,33 @@ class TransactionController extends Controller
             'transaction' => $transaction,
         ]);
     }
+
+    public function destroy($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $transaction->delete();
+        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+    }
+
+    public function trashed()
+    {
+        $trashedTransactions = Transaction::onlyTrashed()->with(['user', 'items', 'discount', 'paymentMethod'])->get();
+        return Inertia::render('Transactions/Trashed', [
+            'trashedTransactions' => $trashedTransactions,
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $transaction = Transaction::withTrashed()->findOrFail($id);
+        $transaction->restore();
+        return redirect()->route('transactions.index')->with('success', 'Transaction restored successfully.');
+    }
+    
+    public function forceDelete($id)
+    {
+        $transaction = Transaction::withTrashed()->findOrFail($id);
+        $transaction->forceDelete();
+        return redirect()->route('transactions.trashed')->with('success', 'Transaction permanently deleted successfully.');
+    }
 }

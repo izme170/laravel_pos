@@ -45,8 +45,8 @@ class TransactionController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_name' => 'nullable|string|max:255',
+            'customer_email' => 'nullable|email|max:255',
             'discount_id' => 'nullable|exists:discounts,id',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'amount_tendered' => 'required|numeric|min:0',
@@ -60,6 +60,16 @@ class TransactionController extends Controller
         $transaction = Transaction::create($transactionData);
 
         foreach ($validated['items'] as $item) {
+            // Deduct stock from the product
+            $product = Product::find($item['product_id']);
+            if ($product->stock < $item['quantity']) {
+                return back()->withErrors(['stock' => "Not enough stock for {$product->name}."]);
+            }
+
+            $product->stock -= $item['quantity'];
+            $product->save();
+
+            // Save the item
             $transaction->items()->create($item);
         }
 
@@ -105,7 +115,7 @@ class TransactionController extends Controller
         $transaction->restore();
         return redirect()->route('transactions.index')->with('success', 'Transaction restored successfully.');
     }
-    
+
     public function forceDelete($id)
     {
         $transaction = Transaction::withTrashed()->findOrFail($id);

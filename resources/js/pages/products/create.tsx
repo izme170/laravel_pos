@@ -17,7 +17,7 @@ interface PageProps {
 export default function ProductCreate({ brands, categories, suppliers }: PageProps) {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
-        brand_id: '',
+        brand: '',
         category_id: '',
         supplier_id: '',
         description: '',
@@ -51,7 +51,7 @@ export default function ProductCreate({ brands, categories, suppliers }: PagePro
 
         const formData = new FormData();
         formData.append('name', data.name);
-        formData.append('brand_id', data.brand_id);
+        formData.append('brand', data.brand);
         formData.append('category_id', data.category_id);
         formData.append('supplier_id', data.supplier_id);
         formData.append('description', data.description || '');
@@ -117,17 +117,28 @@ export default function ProductCreate({ brands, categories, suppliers }: PagePro
                                 <div className="grid grid-cols-1 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
-                                        <select
-                                            value={data.brand_id}
-                                            onChange={e => setData('brand_id', e.target.value)}
-                                            className={`w-full px-4 py-3 text-base rounded-lg border ${errors.brand_id ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'} shadow-sm`}
-                                        >
-                                            <option value="">Select Brand</option>
-                                            {brands.map(b => (
-                                                <option key={b.id} value={b.id}>{b.name}</option>
-                                            ))}
-                                        </select>
-                                        {errors.brand_id && <p className="mt-2 text-sm text-red-600">{errors.brand_id}</p>}
+                                        
+                                        <div className="flex gap-2">
+                                            <select
+                                                value={data.brand}
+                                                onChange={e => setData('brand', e.target.value)}
+                                                className="w-1/2 px-4 py-3 text-base rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                                            >
+                                                <option value="">Select Brand</option>
+                                                {brands.map(b => (
+                                                    <option key={b.id} value={b.name}>{b.name}</option>
+                                                ))}
+                                            </select>
+
+                                            <input
+                                                type="text"
+                                                value={data.brand}
+                                                onChange={e => setData('brand', e.target.value)}
+                                                placeholder="Or type new brand"
+                                                className="w-1/2 px-4 py-3 text-base rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                                            />
+                                        </div>
+                                        {errors.brand && <p className="mt-2 text-sm text-red-600">{errors.brand}</p>}
                                     </div>
 
                                     <div>

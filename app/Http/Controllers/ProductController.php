@@ -51,7 +51,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'brand_id' => 'required|exists:brands,id',
+            'brand' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
             'description' => 'nullable|string',
@@ -68,6 +68,8 @@ class ProductController extends Controller
             $request->image->storeAs('images', $imageName, 'public');
             $validated['image'] = $imageName;
         }
+
+        $validated['brand_id'] = Brand::firstOrCreate(["name" => $validated['brand']])->id;
 
         Product::create($validated);
 

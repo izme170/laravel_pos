@@ -384,8 +384,15 @@ export default function TransactionCreate() {
                                 <input
                                     type="number"
                                     id="amountTendered"
-                                    value={amountTendered}
-                                    onChange={(e) => setAmountTendered(Number(e.target.value))}
+                                    // Controlled component: value should always be a string or number
+                                    // Convert 0 to an empty string to allow clearing the input
+                                    value={amountTendered === 0 ? '' : amountTendered}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        // If the value is an empty string, set amountTendered to 0
+                                        // Otherwise, convert to number.
+                                        setAmountTendered(value === '' ? 0 : Number(value));
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     min={totalAmount} // Set minimum to total amount
                                     step="0.01" // Allow decimal input

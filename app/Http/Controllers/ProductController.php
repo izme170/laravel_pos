@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with(['brand', 'category'])->find($id);
         if(!$product){
             return redirect()->route('products.index')->with('error', 'Product not found');
         }

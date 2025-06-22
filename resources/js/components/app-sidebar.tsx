@@ -16,6 +16,7 @@ import {
     Edit,
     UserCheck,
     ReceiptText,
+    UserPlus,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -50,6 +51,17 @@ const mainNavItems: NavItem[] = [
         title: 'Trashed Products',
         href: '/products/trashed',
         icon: Trash2,
+    },
+
+    {
+        title: 'All Users',
+        href: '/users', // Link to the user index page
+        icon: Users, // Using Users icon for all users
+    },
+    {
+        title: 'Add User',
+        href: '/users/create', // Link to the user create page
+        icon: UserPlus, // Using UserPlus icon for add user
     },
 ];
 

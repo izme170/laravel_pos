@@ -123,15 +123,25 @@ export default function ProductIndex() {
             <Head title="Products" />
             <div className="container mx-auto px-4 py-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-                        <p className="text-gray-500 mt-1">Manage your inventory</p>
+                    <div className="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900">Products</h1>
+                            <p className="text-gray-500 mt-1 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                Manage your inventory
+                            </p>
+                        </div>
                     </div>
                     <Link
                         href={route('products.create')}
-                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors shadow-sm"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-4 py-2.5 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
                     >
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
                         Add Product
@@ -145,7 +155,7 @@ export default function ProductIndex() {
                         <div className="flex-1">
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
@@ -162,65 +172,98 @@ export default function ProductIndex() {
                         {/* Filter Dropdowns */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 lg:w-auto">
                             {/* Brand Filter */}
-                            <select
-                                value={selectedBrand}
-                                onChange={(e) => setSelectedBrand(e.target.value)}
-                                className="px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            >
-                                <option value="">All Brands</option>
-                                {brands.map((brand) => (
-                                    <option key={brand.id} value={brand.id}>
-                                        {brand.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                </div>
+                                <select
+                                    value={selectedBrand}
+                                    onChange={(e) => setSelectedBrand(e.target.value)}
+                                    className="pl-8 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm w-full"
+                                >
+                                    <option value="">All Brands</option>
+                                    {brands.map((brand) => (
+                                        <option key={brand.id} value={brand.id}>
+                                            {brand.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
                             {/* Category Filter */}
-                            <select
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            >
-                                <option value="">All Categories</option>
-                                {categories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                    </svg>
+                                </div>
+                                <select
+                                    value={selectedCategory}
+                                    onChange={(e) => setSelectedCategory(e.target.value)}
+                                    className="pl-8 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm w-full"
+                                >
+                                    <option value="">All Categories</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
                             {/* Supplier Filter */}
-                            <select
-                                value={selectedSupplier}
-                                onChange={(e) => setSelectedSupplier(e.target.value)}
-                                className="px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            >
-                                <option value="">All Suppliers</option>
-                                {suppliers.map((supplier) => (
-                                    <option key={supplier.id} value={supplier.id}>
-                                        {supplier.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <select
+                                    value={selectedSupplier}
+                                    onChange={(e) => setSelectedSupplier(e.target.value)}
+                                    className="pl-8 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm w-full"
+                                >
+                                    <option value="">All Suppliers</option>
+                                    {suppliers.map((supplier) => (
+                                        <option key={supplier.id} value={supplier.id}>
+                                            {supplier.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
                             {/* Stock Filter */}
-                            <select
-                                value={stockFilter}
-                                onChange={(e) => setStockFilter(e.target.value)}
-                                className="px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            >
-                                <option value="">All Stock</option>
-                                <option value="in-stock">In Stock</option>
-                                <option value="out-of-stock">Out of Stock</option>
-                                <option value="low-stock">Low Stock (&lt;10)</option>
-                            </select>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                    </svg>
+                                </div>
+                                <select
+                                    value={stockFilter}
+                                    onChange={(e) => setStockFilter(e.target.value)}
+                                    className="pl-8 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm w-full"
+                                >
+                                    <option value="">All Stock</option>
+                                    <option value="in-stock">In Stock</option>
+                                    <option value="out-of-stock">Out of Stock</option>
+                                    <option value="low-stock">Low Stock (&lt;10)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     {/* Price Range Filter */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-4 pt-4 border-t border-gray-100">
                         <div className="flex items-center gap-2">
-                            <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Price Range:</label>
+                            <label className="text-sm font-medium text-gray-700 whitespace-nowrap flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Price Range:
+                            </label>
                             <div className="flex items-center gap-2">
                                 <input
                                     type="number"
@@ -242,13 +285,19 @@ export default function ProductIndex() {
 
                         {/* Clear Filters & Results Count */}
                         <div className="flex items-center gap-4 sm:ml-auto">
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-500 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
                                 {filteredProducts.length} of {allProducts.length} products
                             </span>
                             <button
                                 onClick={clearFilters}
-                                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                                className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
                             >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
                                 Clear Filters
                             </button>
                         </div>
@@ -260,7 +309,7 @@ export default function ProductIndex() {
                     <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-lg">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
-                                <svg className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
@@ -274,7 +323,7 @@ export default function ProductIndex() {
                     <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-lg">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
-                                <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </div>
@@ -287,7 +336,7 @@ export default function ProductIndex() {
 
                 {filteredProducts.length === 0 ? (
                     <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-                        <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                         <h3 className="mt-2 text-lg font-medium text-gray-900">No products found</h3>
@@ -301,9 +350,9 @@ export default function ProductIndex() {
                             <div className="mt-6">
                                 <Link
                                     href={route('products.create')}
-                                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 >
-                                    <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                     </svg>
                                     New Product
@@ -327,41 +376,79 @@ export default function ProductIndex() {
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                            <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
                                         </div>
                                     )}
                                     {product.stock === 0 && (
-                                        <span className="absolute top-2 right-2 bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        <span className="absolute top-2 right-2 bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
                                             Out of stock
+                                        </span>
+                                    )}
+                                    {product.stock > 0 && product.stock < 10 && (
+                                        <span className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                            Low stock
                                         </span>
                                     )}
                                 </div>
 
                                 <div className="p-4">
                                     <div className="flex justify-between items-start gap-2">
-                                        <h2 className="font-semibold text-gray-900 truncate">{product.name}</h2>
-                                        <span className="text-xs text-gray-500">#{product.barcode}</span>
+                                        <h2 className="font-semibold text-gray-900 truncate flex items-center gap-1">
+                                            {product.name}
+                                        </h2>
+                                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            </svg>
+                                            #{product.barcode}
+                                        </span>
                                     </div>
 
-                                    <div className="mt-3 space-y-1">
+                                    <div className="mt-3 space-y-2">
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-500">Buying Price</span>
+                                            <span className="text-gray-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Buying Price
+                                            </span>
                                             <span className="font-medium">₱{Number(product.buying_price).toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-500">Selling Price</span>
+                                            <span className="text-gray-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Selling Price
+                                            </span>
                                             <span className="font-medium">₱{Number(product.selling_price).toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-500">Sale Price</span>
+                                            <span className="text-gray-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z" />
+                                                </svg>
+                                                Sale Price
+                                            </span>
                                             <span className="font-medium">
                                                 {product.sale_price !== null ? `₱${Number(product.sale_price).toFixed(2)}` : '—'}
                                             </span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-500">Stock</span>
+                                            <span className="text-gray-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                                </svg>
+                                                Stock
+                                            </span>
                                             <span className={`font-medium ${product.stock < 5 ? 'text-red-600' : 'text-gray-900'}`}>
                                                 {product.stock} units
                                             </span>
@@ -371,14 +458,21 @@ export default function ProductIndex() {
                                         <div className="flex gap-2">
                                             <Link
                                                 href={route('products.edit', product.id)}
-                                                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                                                className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
                                             >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
                                                 Edit
                                             </Link>
                                             <Link
                                                 href={route('products.show', product.id)}
-                                                className="text-sm text-gray-600 hover:text-gray-800 font-medium"
+                                                className="text-sm text-gray-600 hover:text-gray-800 font-medium flex items-center gap-1"
                                             >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
                                                 View
                                             </Link>
                                         </div>

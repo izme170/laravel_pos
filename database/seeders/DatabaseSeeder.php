@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\PaymentMethod;
 use App\Models\Role;
 use App\Models\Supplier;
@@ -62,6 +63,36 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($paymentMethods as $method) {
             PaymentMethod::firstOrCreate(['name' => $method]);
+        }
+
+        $discounts = [
+            [
+                'name' => 'Senior Citizen',
+                'type' => 'percentage',
+                'value' => 20, // 20% discount
+            ],
+            [
+                'name' => 'PWD',
+                'type' => 'percentage',
+                'value' => 20, // 20% discount
+            ],
+            [
+                'name' => 'Employee',
+                'type' => 'percentage',
+                'value' => 10, // 10% discount
+            ],
+            [
+                'name' => 'Promotional',
+                'type' => 'fixed',
+                'value' => 50, // 50 currency units discount
+            ],
+        ];
+        
+        foreach ($discounts as $discount) {
+            Discount::firstOrCreate(
+                ['name' => $discount['name']],
+                ['type' => $discount['type'], 'value' => $discount['value']]
+            );
         }
     }
 }

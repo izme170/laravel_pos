@@ -37,13 +37,13 @@ export default function TrashedProducts() {
 
     const handleRestore = (id: number) => {
         if (confirm('Are you sure you want to restore this product?')) {
-            router.put(route('products.restore', id));
+            router.post(route('products.restore', id)); // Change from .put to .post
         }
     };
 
     const handlePermanentDelete = (id: number) => {
         if (confirm('Are you sure you want to permanently delete this product? This action cannot be undone.')) {
-            router.delete(route('products.force-delete', id));
+            router.delete(route('products.forceDelete', id));
         }
     };
 

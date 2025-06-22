@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('selling_price', 9, 2);
             $table->decimal('sale_price', 9, 2)->nullable();
             $table->integer('stock')->default(0);
-            $table->string('barcode', 50);
+            $table->string('barcode', 50)->nullable();
             $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();

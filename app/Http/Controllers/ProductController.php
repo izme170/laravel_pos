@@ -14,9 +14,15 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with(['brand', 'category', 'supplier'])->get();
+        $brands = Brand::all();
+        $categories = Category::all();
+        $suppliers = Supplier::all();
         return Inertia::render('products/index', [
             'products' => $products,
+            'brands'=> $brands,
+            'categories'=> $categories,
+            'suppliers'=> $suppliers,
             'flash' => [
                 'success' => session('success'),
                 'error' => session('error')
@@ -26,7 +32,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with(['brand', 'category', 'supplier'])->find($id);
         if(!$product){
             return redirect()->route('products.index')->with('error', 'Product not found');
         }

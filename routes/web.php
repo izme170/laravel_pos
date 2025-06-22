@@ -54,9 +54,9 @@ Route::get('dashboard', function () {
             Route::get('/', 'index')->name('discounts.index');
             Route::get('/create', 'create')->name('discounts.create');
             Route::post('/', 'store')->name('discounts.store');
-            Route::get('/trashed', 'trashed')->name('discounts.trashed');
             Route::delete('/{discount}', 'destroy')->name('discounts.destroy');
-            Route::post('/{discount}/restore', 'restore')->name('discounts.restore');
+            Route::get('/trashed', 'trashed')->name('discounts.trashed');
+            Route::post('/{id}/restore', 'restore')->name('discounts.restore');
         });
 
         Route::controller(PaymentMethod::class)->prefix('payment-methods')->group(function () {
@@ -65,16 +65,15 @@ Route::get('dashboard', function () {
             Route::post('/', 'store')->name('payment-methods.store');
             Route::delete('/{payment}', 'destroy')->name('payment-methods.destroy');
             Route::get('/trashed', 'trashed')->name('payment-methods.trashed');
-            Route::post('/{payment}/restore', 'restore')->name('payment-methods.restore');
+            Route::post('/{id}/restore', 'restore')->name('payment-methods.restore');
         });
 
         Route::controller(TransactionController::class)->prefix('transactions')->group(function () {
             Route::get('/', 'index')->name('transactions.index');
-            Route::get('/trashed', 'trashed')->name('transactions.trashed');
+            Route::get('/create', 'create')->name('transactions.create');
+            Route::post('/', 'store')->name('transactions.store');
             Route::get('/{transaction}', 'show')->name('transactions.show');
-            Route::delete('/{transaction}/force-delete', 'forceDelete')->name('transactions.forceDelete');
-            Route::delete('/{transaction}', 'destroy')->name('transactions.destroy');
-            Route::post('/{transaction}/restore', 'restore')->name('transactions.restore');
+            Route::get('/{transaction}/receipt', 'receipt')->name('transactions.receipt');
         });
 
         Route::controller(BrandController::class)->prefix('brands')->group(function () {
@@ -83,7 +82,7 @@ Route::get('dashboard', function () {
             Route::post('/', 'store')->name('brands.store');
             Route::delete('/{brand}', 'destroy')->name('brands.destroy');
             Route::get('/trashed', 'trashed')->name('brands.trashed');
-            Route::post('/{brand}/restore', 'restore')->name('brands.restore');
+            Route::post('/{id}/restore', 'restore')->name('brands.restore');
         });
 
         Route::controller(CategoryController::class)->prefix('categories')->group(function () {
@@ -92,29 +91,20 @@ Route::get('dashboard', function () {
             Route::post('/', 'store')->name('categories.store');
             Route::delete('/{category}', 'destroy')->name('categories.destroy');
             Route::get('/trashed', 'trashed')->name('categories.trashed');
-            Route::post('/{category}/restore', 'restore')->name('categories.restore');
+            Route::post('/{id}/restore', 'restore')->name('categories.restore');
         });
 
         Route::controller(SupplierController::class)->prefix('suppliers')->group(function () {
             Route::get('/', 'index')->name('suppliers.index');
             Route::get('/create', 'create')->name('suppliers.create');
             Route::post('/', 'store')->name('suppliers.store');
-            Route::get('/trashed', 'trashed')->name('suppliers.trashed');
             Route::get('/{supplier}/edit', 'edit')->name('suppliers.edit');
             Route::put('/{supplier}', 'update')->name('suppliers.update');
             Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
-            Route::post('/{supplier}/restore', 'restore')->name('suppliers.restore');
+            Route::get('/trashed', 'trashed')->name('suppliers.trashed');
+            Route::post('/{id}/restore', 'restore')->name('suppliers.restore');
         });
     });
-
-    Route::middleware('cashier')->group(function (){
-        Route::controller(TransactionController::class)->prefix('transactions')->group(function () {
-            Route::get('/create', 'create')->name('transactions.create');
-            Route::post('/', 'store')->name('transactions.store');
-            Route::get('/{transaction}/receipt', 'receipt')->name('transactions.receipt');
-        });
-    });
-
 });
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

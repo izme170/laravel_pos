@@ -11,14 +11,14 @@ class BrandController extends Controller
     public function index()
     {
         $brand = Brand::all();
-        return Inertia::render("Brands/Index", [
+        return Inertia::render("brands/index", [
             'brands' => $brand
         ]);
     }
 
     public function create()
     {
-        return Inertia::render("Brands/Create");
+        return Inertia::render("brands/create");
     }
     
     public function store(Request $request)
@@ -48,7 +48,7 @@ class BrandController extends Controller
     public function trashed()
     {
         $trashedBrands = Brand::onlyTrashed()->get();
-        return Inertia::render("Brands/Trash", [
+        return Inertia::render("brands/trash", [
             'trashedBrands' => $trashedBrands
         ]);
     }

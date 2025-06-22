@@ -11,14 +11,14 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return Inertia::render("Categories/Index", [
+        return Inertia::render("categories/index", [
             'categories' => $categories
         ]);
     }
 
     public function create()
     {
-        return Inertia::render("Categories/Create");
+        return Inertia::render("categories/create");
     }
 
     public function store(Request $request)
@@ -48,7 +48,7 @@ class CategoryController extends Controller
     public function trashed()
     {
         $trashedCategories = Category::onlyTrashed()->get();
-        return Inertia::render("Categories/Trash", [
+        return Inertia::render("categories/trash", [
             'trashedCategories' => $trashedCategories
         ]);
     }

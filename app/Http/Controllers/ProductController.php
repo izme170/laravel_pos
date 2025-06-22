@@ -203,26 +203,4 @@ class ProductController extends Controller
         ]);
     }
 
-    // New method for adding to cart
-    public function addToCart(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $product = Product::find($id);
-        if (!$product) {
-            return redirect()->route('products.index')->with('error', 'Product not found');
-        }
-
-        if ($product->stock < $validated['quantity']) {
-            return redirect()->route('products.index')->with('error', 'Insufficient stock available');
-        }
-
-        // Here you would typically save to a cart table or session
-        // For now, we'll just return success with a flash message
-        $message = "{$validated['quantity']} x {$product->name} added to cart successfully";
-        
-        return redirect()->route('products.index')->with('success', $message);
-    }
 }

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = \App\Models\User::with('role')->get();
-        return inertia('Users/Index', [
+        return inertia('users/index', [
             'users' => $users
         ]);
     }
@@ -20,7 +21,7 @@ class UserController extends Controller
         if (!$user) {
             return redirect()->route('users.index')->with('error', 'User not found');
         }
-        return inertia('Users/Show', [
+        return inertia('users/show', [
             'user' => $user
         ]);
     }
@@ -28,7 +29,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = \App\Models\Role::all();
-        return inertia('Users/Create', [
+        return inertia('users/create', [
             'roles' => $roles
         ]);
     }
@@ -40,7 +41,7 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('error', 'User not found');
         }
         $roles = \App\Models\Role::all();
-        return inertia('Users/Edit', [
+        return inertia('users/edit', [
             'user' => $user,
             'roles' => $roles
         ]);

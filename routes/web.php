@@ -48,8 +48,6 @@ Route::get('dashboard', function () {
             Route::delete('/{product}', 'destroy')->name('products.destroy');
             Route::post('/{product}/restore', 'restore')->name('products.restore');
             Route::delete('/{product}/force-delete', 'forceDelete')->name('products.forceDelete');
-            // New route for add to cart
-            Route::post('/{product}/add-to-cart', 'addToCart')->name('products.addToCart');
         });
 
         Route::controller(DiscountController::class)->prefix('discounts')->group(function () {

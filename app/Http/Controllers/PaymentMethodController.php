@@ -10,15 +10,15 @@ class PaymentMethodController extends Controller
 {
     public function index()
     {
-        $paymentMethods = PaymentMethod::orderBy("id","desc")->get();
-        return Inertia::render("PaymentMethods/Index", [
+        $paymentMethods = PaymentMethod::orderBy("id", "desc")->get();
+        return Inertia::render("paymentmethods/index", [
             "paymentMethods" => $paymentMethods
         ]);
     }
 
     public function create()
     {
-        return Inertia::render("PaymentMethods/Create");
+        return Inertia::render("paymentmethods/create");
     }
 
     public function store(Request $request)
@@ -42,7 +42,7 @@ class PaymentMethodController extends Controller
     public function trashed()
     {
         $trashedPaymentMethods = PaymentMethod::onlyTrashed()->get();
-        return Inertia::render("PaymentMethods/Trashed", [
+        return Inertia::render("paymentmethods/trashed", [
             "trashedPaymentMethods" => $trashedPaymentMethods
         ]);
     }
@@ -54,5 +54,4 @@ class PaymentMethodController extends Controller
 
         return redirect()->route('payment-methods.index')->with('success', 'Payment method restored successfully.');
     }
-
 }

@@ -14,20 +14,27 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->get();
-        return Inertia::render('Transactions/Index', [
+        return Inertia::render('transactions/index', [
             'transactions' => $transactions,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $products = Product::all();
-        $paymentMethos = PaymentMethod::all();
+        $paymentMethods = PaymentMethod::all();
         $discounts = Discount::all();
-        return Inertia::render('Transactions/Create', [
+
+        $selectedProduct = null;
+        if ($request->has('product_id')) {
+            $selectedProduct = Product::find($request->product_id);
+        }
+
+        return Inertia::render('transactions/create', [
             'products' => $products,
-            'paymentMethods' => $paymentMethos,
+            'paymentMethods' => $paymentMethods,
             'discounts' => $discounts,
+            'selectedProduct' => $selectedProduct,
         ]);
     }
 
@@ -49,9 +56,7 @@ class TransactionController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        // Exclude items
         $transactionData = collect($validated)->except('items')->toArray();
-
         $transaction = Transaction::create($transactionData);
 
         foreach ($validated['items'] as $item) {
@@ -61,19 +66,20 @@ class TransactionController extends Controller
         return redirect()->route('transactions.receipt', $transaction->id)->with('success', 'Transaction created successfully.');
     }
 
-
     public function show($id)
     {
-        $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);
-        return Inertia::render('Transactions/Show', [
+        // Eager load 'items.product' to ensure product details are available
+        $transaction = Transaction::with(['user', 'items.product', 'discount', 'paymentMethod'])->findOrFail($id);
+        return Inertia::render('transactions/show', [
             'transaction' => $transaction,
         ]);
     }
 
     public function receipt($id)
     {
-        $transaction = Transaction::with(['user', 'items', 'discount', 'paymentMethod'])->findOrFail($id);
-        return Inertia::render('Transactions/Receipt', [
+        // Eager load 'items.product' to ensure product details are available for the receipt
+        $transaction = Transaction::with(['user', 'items.product', 'discount', 'paymentMethod'])->findOrFail($id);
+        return Inertia::render('transactions/receipt', [
             'transaction' => $transaction,
         ]);
     }

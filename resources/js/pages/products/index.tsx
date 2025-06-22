@@ -31,112 +31,6 @@ interface Supplier {
     name: string;
 }
 
-interface QuantityModalProps {
-    isOpen: boolean;
-    product: Product | null;
-    onClose: () => void;
-    onConfirm: (quantity: number) => void;
-}
-
-function QuantityModal({ isOpen, product, onClose, onConfirm }: QuantityModalProps) {
-    const [quantity, setQuantity] = useState(1);
-
-    if (!isOpen || !product) return null;
-
-    const handleConfirm = () => {
-        if (quantity > 0 && quantity <= product.stock) {
-            onConfirm(quantity);
-            setQuantity(1);
-            onClose();
-        }
-    };
-
-    return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-                <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                        <h2 className="text-xl font-semibold text-gray-900">Add to Cart</h2>
-                        <button
-                            onClick={onClose}
-                            className="text-gray-400 hover:text-gray-500"
-                        >
-                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div className="space-y-4">
-                        <div>
-                            <h3 className="text-lg font-medium text-gray-800">{product.name}</h3>
-                            <p className="text-sm text-gray-500">Available: {product.stock} units</p>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Quantity
-                            </label>
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className="bg-gray-100 hover:bg-gray-200 w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
-                                >
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                    </svg>
-                                </button>
-                                <input
-                                    type="number"
-                                    value={quantity}
-                                    onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
-                                    className="w-20 text-center border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    min="1"
-                                    max={product.stock}
-                                />
-                                <button
-                                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                                    className="bg-gray-100 hover:bg-gray-200 w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
-                                >
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Unit Price:</span>
-                                <span className="font-medium">₱{Number(product.selling_price).toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between text-lg">
-                                <span className="font-medium text-gray-800">Total:</span>
-                                <span className="font-bold text-blue-600">₱{(Number(product.selling_price) * quantity).toFixed(2)}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={handleConfirm}
-                        className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-                    >
-                        Add to Cart
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 export default function ProductIndex() {
     const page = usePage<{
         products: Product[],
@@ -148,9 +42,6 @@ export default function ProductIndex() {
 
     const { products: allProducts, brands = [], categories = [], suppliers = [] } = page.props;
     const flash = page.props.flash;
-
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Search and filter state
     const [searchTerm, setSearchTerm] = useState('');
@@ -224,19 +115,6 @@ export default function ProductIndex() {
     const handleTrashProduct = (productId: number) => {
         if (confirm('Are you sure you want to trash this product?')) {
             router.delete(route('products.destroy', productId));
-        }
-    };
-
-    const handleAddToCart = (product: Product) => {
-        setSelectedProduct(product);
-        setIsModalOpen(true);
-    };
-
-    const handleConfirmAddToCart = (quantity: number) => {
-        if (selectedProduct) {
-            router.post(route('products.addToCart', selectedProduct.id), {
-                quantity: quantity
-            });
         }
     };
 
@@ -489,7 +367,6 @@ export default function ProductIndex() {
                                             </span>
                                         </div>
                                     </div>
-
                                     <div className="mt-4 flex justify-between items-center">
                                         <div className="flex gap-2">
                                             <Link
@@ -507,17 +384,15 @@ export default function ProductIndex() {
                                         </div>
 
                                         <div className="flex gap-1">
-                                            <button
-                                                onClick={() => handleAddToCart(product)}
-                                                className={`p-2 rounded-lg ${product.stock === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-green-100 text-green-600 hover:bg-green-200'} transition-colors`}
-                                                title="Add to Cart"
-                                                disabled={product.stock === 0}
+                                            <Link
+                                                href={route('transactions.create', { product_id: product.id })}
+                                                className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition-colors"
+                                                title="Checkout"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h7M17 13v8a2 2 0 01-2 2H9a2 2 0 01-2-2v-8m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                                 </svg>
-                                            </button>
-
+                                            </Link>
                                             <button
                                                 onClick={() => handleTrashProduct(product.id)}
                                                 className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
@@ -535,14 +410,6 @@ export default function ProductIndex() {
                     </div>
                 )}
             </div>
-
-            {/* Quantity Modal */}
-            <QuantityModal
-                isOpen={isModalOpen}
-                product={selectedProduct}
-                onClose={() => setIsModalOpen(false)}
-                onConfirm={handleConfirmAddToCart}
-            />
         </AppLayout>
     );
 }

@@ -15,6 +15,7 @@ import {
     Eye,
     Edit,
     UserCheck,
+    ReceiptText,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -36,6 +37,13 @@ const mainNavItems: NavItem[] = [
         title: 'Add Product',
         href: '/products/create',
         icon: PackagePlus,
+    },
+
+    // TransactionController
+    {
+        title: 'All Transactions', // New navigation item for transactions
+        href: '/transactions',
+        icon: ReceiptText, // Using ReceiptText icon for transactions
     },
 
     {

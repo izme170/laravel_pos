@@ -10,14 +10,14 @@ class DiscountController extends Controller
     public function index()
     {
         $discounts = Discount::all();
-        return inertia('Discounts/Index', [
+        return inertia('discounts/index', [
             'discounts' => $discounts
         ]);
     }
 
     public function create()
     {
-        return inertia('Discounts/Create');
+        return inertia('discounts/create');
     }
 
     public function store(Request $request)
@@ -47,7 +47,7 @@ class DiscountController extends Controller
     public function trashed()
     {
         $trashedDiscounts = Discount::onlyTrashed()->get();
-        return inertia('Discounts/Trashed', [
+        return inertia('discounts/trashed', [
             'trashedDiscounts' => $trashedDiscounts
         ]);
     }
@@ -59,5 +59,4 @@ class DiscountController extends Controller
 
         return redirect()->route('discounts.index')->with('success', 'Discount restored successfully.');
     }
-
 }

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SupplierController extends Controller
 {
     public function index()
     {
         $supplier = Supplier::all();
-        return Inertia::render("Suppliers/Index", [
+        return Inertia::render("suppliers/index", [
             'suppliers' => $supplier
         ]);
     }
@@ -31,7 +33,7 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $supplier = Supplier::findOrFail($id);
-        return Inertia::render("Suppliers/Edit", [
+        return Inertia::render("suppliers/edit", [
             'supplier' => $supplier
         ]);
     }
@@ -67,7 +69,7 @@ class SupplierController extends Controller
     public function trashed()
     {
         $trashedSuppliers = Supplier::onlyTrashed()->get();
-        return Inertia::render("Suppliers/Trash", [
+        return Inertia::render("suppliers/trash", [
             'trashedSuppliers' => $trashedSuppliers
         ]);
     }

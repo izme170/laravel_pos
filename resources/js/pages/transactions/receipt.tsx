@@ -122,13 +122,18 @@ export default function TransactionReceipt() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                                 </svg>
                             </div>
-                            <h2 className="text-3xl font-extrabold text-blue-700 mb-2">My Shop</h2>
-                            <p className="text-lg text-gray-600 flex items-center justify-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                Thank you for your purchase!
-                            </p>
+                            <h2 className="text-3xl font-extrabold text-blue-700 mb-2">Gwapings Shop</h2>
+                            <div className="text-lg text-gray-600 flex flex-col items-center justify-center gap-1 text-center">
+                                <div className="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Thank you for your purchase</span>
+                                </div>
+                                <div>{transaction.customer_name}!</div>
+                            </div>
+
+
                             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4 text-sm text-gray-500">
                                 <p className="flex items-center gap-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

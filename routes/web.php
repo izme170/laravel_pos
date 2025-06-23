@@ -80,6 +80,8 @@ Route::get('dashboard', function () {
             Route::get('/', 'index')->name('brands.index');
             Route::get('/create', 'create')->name('brands.create');
             Route::post('/', 'store')->name('brands.store');
+            Route::get('/{brand}/edit', 'edit')->name('brands.edit');
+            Route::put('/{brand}', 'update')->name('brands.update');
             Route::delete('/{brand}', 'destroy')->name('brands.destroy');
             Route::get('/trashed', 'trashed')->name('brands.trashed');
             Route::post('/{id}/restore', 'restore')->name('brands.restore');

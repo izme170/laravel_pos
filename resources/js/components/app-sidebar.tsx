@@ -23,17 +23,10 @@ import {
     UserCheck,
     Building2,
     Building2Icon,
+    Tag,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
-// Assuming NavItem can have a 'children' property for nested items
-// You might need to update your NavItem type definition:
-// export type NavItem = {
-//     title: string;
-//     href?: string; // href is optional for parent items
-//     icon?: React.ElementType;
-//     children?: NavItem[]; // Add this
-// };
 
 const mainNavItems: NavItem[] = [
     {
@@ -44,13 +37,13 @@ const mainNavItems: NavItem[] = [
 
     // ProductController
     {
-        title: 'Products', // A parent item for products (optional, but good for consistency)
-        icon: Package, // You might want a general product icon
+        title: 'Products',
+        icon: Package,
         children: [
             {
                 title: 'All Products',
                 href: '/products',
-                icon: Package, // Keep individual icons if desired
+                icon: Package,
             },
             {
                 title: 'Add Product',
@@ -75,12 +68,12 @@ const mainNavItems: NavItem[] = [
     // User Management Section - Now a collapsible parent
     {
         title: 'User Management',
-        icon: Users, // A general icon for user management
+        icon: Users,
         children: [
             {
                 title: 'All Users',
                 href: '/users',
-                icon: Users, // Specific icon for All Users
+                icon: Users,
             },
             {
                 title: 'Add User',
@@ -93,12 +86,12 @@ const mainNavItems: NavItem[] = [
     // Supplier Management Section - New collapsible parent
     {
         title: 'Supplier Management',
-        icon: Building2, // A general icon for supplier management
+        icon: Building2,
         children: [
             {
                 title: 'All Suppliers',
                 href: '/suppliers',
-                icon: Building2, // Specific icon for All Suppliers
+                icon: Building2,
             },
             {
                 title: 'Add Supplier',
@@ -107,6 +100,24 @@ const mainNavItems: NavItem[] = [
             },
         ],
     },
+
+    {
+        title: 'Brand Management',
+        icon: Package, // Consider using another icon like 'Tag' or 'Bookmark' if it fits better
+        children: [
+            {
+                title: 'All Brands',
+                href: '/brands',
+                icon: Package,
+            },
+            {
+                title: 'Add Brand',
+                href: '/brands/create', icon: PackagePlus,
+            },
+        ],
+    },
+
+
 ];
 
 export function AppSidebar() {

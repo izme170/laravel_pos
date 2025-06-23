@@ -16,6 +16,11 @@ class SupplierController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return inertia('suppliers/create');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

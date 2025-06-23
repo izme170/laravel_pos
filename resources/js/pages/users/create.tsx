@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import InputError from '@/components/input-error';
-import { User, Mail, KeyRound, Image, PlusCircle, UserPlus, BadgeCheck, Upload } from 'lucide-react';
+import { User, Mail, KeyRound, Image, PlusCircle, UserPlus, BadgeCheck, Upload, Lock } from 'lucide-react'; // Import Lock icon
 
 interface Role {
     id: number;
@@ -21,6 +21,7 @@ export default function UsersCreate({ roles }: UsersCreateProps) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        password: '', // Add password field
         role_id: '',
         image: null as File | null,
     });
@@ -109,6 +110,29 @@ export default function UsersCreate({ roles }: UsersCreateProps) {
                                         </div>
                                         <InputError message={errors.email} className="mt-1" />
                                     </div>
+
+                                    {/* New: Password Field */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="password" className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                                            <Lock className="w-4 h-4 text-primary" />
+                                            <span>Password</span>
+                                        </Label>
+                                        <div className="relative">
+                                            <Input
+                                                id="password"
+                                                type="password"
+                                                name="password"
+                                                value={data.password}
+                                                onChange={(e) => setData('password', e.target.value)}
+                                                className="w-full pl-10"
+                                                autoComplete="new-password"
+                                                placeholder="Enter password"
+                                            />
+                                            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        </div>
+                                        <InputError message={errors.password} className="mt-1" />
+                                    </div>
+
 
                                     <div className="space-y-2">
                                         <Label htmlFor="role_id" className="flex items-center gap-2 text-gray-700 dark:text-gray-300">

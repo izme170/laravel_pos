@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Hash; 
+use App\Models\User; 
+use App\Models\Role; 
 class UserController extends Controller
 {
     public function index()
@@ -50,10 +52,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'role_id' => 'required|exists:roles,id',
-            'email' => 'required|email|max:255|unique:users,email',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'], // Add password validation
+            'role_id' => ['required', 'exists:roles,id'],
+            'image' => ['nullable', 'image', 'max:2048'], // 2MB max
         ]);
 
         if ($request->hasFile('image')) {
@@ -62,7 +65,10 @@ class UserController extends Controller
             $validated['image'] = $imageName;
         }
 
-        \App\Models\User::create($validated);
+        // Hash the password before creating the user
+        $validated['password'] = Hash::make($validated['password']);
+
+        User::create($validated);
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
     }

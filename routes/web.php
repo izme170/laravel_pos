@@ -89,9 +89,10 @@ Route::get('dashboard', function () {
             Route::get('/', 'index')->name('categories.index');
             Route::get('/create', 'create')->name('categories.create');
             Route::post('/', 'store')->name('categories.store');
-            Route::delete('/{category}', 'destroy')->name('categories.destroy');
             Route::get('/trashed', 'trashed')->name('categories.trashed');
-            Route::post('/{id}/restore', 'restore')->name('categories.restore');
+            Route::delete('/{category}', 'destroy')->name('categories.destroy');
+            Route::put('/{category}/restore', 'restore')->name('categories.restore');
+            Route::delete('/{category}/force-delete', 'forceDelete')->name('categories.forceDelete');
         });
 
         Route::controller(SupplierController::class)->prefix('suppliers')->group(function () {

@@ -42,14 +42,21 @@ class CategoryController extends Controller
     {
         $category = Category::withTrashed()->findOrFail($id);
         $category->restore();
-        return redirect()->route('categories.index')->with('success', 'Category restored successfully.');
+        return redirect()->route('categories.trashed')->with('success', 'Category restored successfully.');
     }
     
     public function trashed()
     {
-        $trashedCategories = Category::onlyTrashed()->get();
-        return Inertia::render("categories/trash", [
-            'trashedCategories' => $trashedCategories
+        $categories = Category::onlyTrashed()->get();
+        return Inertia::render("categories/trashed", [
+            'categories' => $categories
         ]);
+    }
+
+    public function forceDelete($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->forceDelete();
+        return redirect()->route('categories.trashed')->with('success', 'Category permanently deleted successfully.');
     }
 }

@@ -23,6 +23,8 @@ import {
     UserCheck,
     Building2,
     Building2Icon,
+    Folder,
+    FolderMinus,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -104,6 +106,22 @@ const mainNavItems: NavItem[] = [
                 title: 'Add Supplier',
                 href: '/suppliers/create',
                 icon: Building2Icon,
+            },
+        ],
+    },
+    {
+        title: 'Categories',
+        icon: Folder,
+        children: [
+            {
+                title: 'All Categories',
+                href: '/categories',
+                icon: Folder,
+            },
+            {
+                title: 'Trashed Categories',
+                href: '/categories/trashed',
+                icon: FolderMinus,
             },
         ],
     },

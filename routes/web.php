@@ -101,8 +101,6 @@ Route::get('dashboard', function () {
             Route::get('/{supplier}/edit', 'edit')->name('suppliers.edit');
             Route::put('/{supplier}', 'update')->name('suppliers.update');
             Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
-            Route::get('/trashed', 'trashed')->name('suppliers.trashed');
-            Route::post('/{id}/restore', 'restore')->name('suppliers.restore');
         });
     });
 });

@@ -58,19 +58,4 @@ class SupplierController extends Controller
         $supplier->delete();
         return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully.');
     }
-
-    public function restore($id)
-    {
-        $supplier = Supplier::withTrashed()->findOrFail($id);
-        $supplier->restore();
-        return redirect()->route('suppliers.index')->with('success', 'Supplier restored successfully.');
-    }
-
-    public function trashed()
-    {
-        $trashedSuppliers = Supplier::onlyTrashed()->get();
-        return Inertia::render("suppliers/trash", [
-            'trashedSuppliers' => $trashedSuppliers
-        ]);
-    }
 }

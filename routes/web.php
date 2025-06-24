@@ -19,7 +19,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-Route::get('dashboard', [AnalyticsController::class, 'getDashboardData'])->name('dashboard');
     Route::middleware('admin')->group(function () {
         Route::controller(UserController::class)->prefix('users')->group(function () {
             Route::get('/', 'index')->name('users.index');
@@ -41,6 +40,7 @@ Route::get('dashboard', [AnalyticsController::class, 'getDashboardData'])->name(
     });
 
     Route::middleware('manager')->group(function (){
+        Route::get('dashboard', [AnalyticsController::class, 'getDashboardData'])->name('dashboard');
         Route::controller(ProductController::class)->prefix('products')->group(function () {
             Route::get('/', 'index')->name('products.index');
             Route::get('/create', 'create')->name('products.create');

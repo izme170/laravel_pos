@@ -81,11 +81,6 @@ class DatabaseSeeder extends Seeder
                 'type' => 'percentage',
                 'value' => 10, // 10% discount
             ],
-            [
-                'name' => 'Promotional',
-                'type' => 'fixed',
-                'value' => 50, // 50 currency units discount
-            ],
         ];
         
         foreach ($discounts as $discount) {

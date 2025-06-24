@@ -34,6 +34,14 @@ Route::get('dashboard', function () {
         });
     });
 
+    Route::middleware('cashier')->group(function () {
+        Route::controller(TransactionController::class)->prefix('transactions')->group(function () {
+            Route::get('/create', 'create')->name('transactions.create');
+            Route::post('/', 'store')->name('transactions.store');
+            Route::get('/{transaction}/receipt', 'receipt')->name('transactions.receipt');
+        });      
+    });
+
     Route::middleware('manager')->group(function (){
         Route::controller(ProductController::class)->prefix('products')->group(function () {
             Route::get('/', 'index')->name('products.index');
@@ -70,10 +78,7 @@ Route::get('dashboard', function () {
 
         Route::controller(TransactionController::class)->prefix('transactions')->group(function () {
             Route::get('/', 'index')->name('transactions.index');
-            Route::get('/create', 'create')->name('transactions.create');
-            Route::post('/', 'store')->name('transactions.store');
             Route::get('/{transaction}', 'show')->name('transactions.show');
-            Route::get('/{transaction}/receipt', 'receipt')->name('transactions.receipt');
         });
 
         Route::controller(BrandController::class)->prefix('brands')->group(function () {

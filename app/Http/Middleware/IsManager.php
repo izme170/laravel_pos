@@ -17,7 +17,7 @@ class IsManager
     {
         if(auth()->user()->role->name !== 'Manager' && auth()->user()->role->name !== 'Admin')
         {
-            return redirect()->back()->with('error', 'Unauthorized');
+            return redirect()->route('unauthorized');
         }
         return $next($request);
     }

@@ -17,7 +17,7 @@ class IsAdmin
     {
         if(auth()->user()->role->name !== 'Admin')
         {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return redirect()->back()->with('error', 'Unauthorized');
         }
         return $next($request);
     }

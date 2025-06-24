@@ -3,7 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import moment from 'moment';
 
-// Define interfaces for type safety (keep these as they are correct)
+
 interface User {
     id: number;
     name: string;
@@ -23,7 +23,7 @@ interface TransactionItem {
     id: number;
     product_id: number;
     quantity: number;
-    // Keep price as number in interface, but handle potential string value from backend
+
     price: number;
     product: Product;
 }

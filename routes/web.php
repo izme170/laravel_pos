@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
@@ -18,6 +19,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+Route::get('dashboard', [AnalyticsController::class, 'getDashboardData'])->name('dashboard');
 
     Route::middleware('admin')->group(function () {
         Route::controller(UserController::class)->prefix('users')->group(function () {
